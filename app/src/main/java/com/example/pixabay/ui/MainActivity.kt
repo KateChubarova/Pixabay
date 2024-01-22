@@ -1,42 +1,20 @@
 package com.example.pixabay.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.recyclerview.widget.RecyclerView
-import com.example.pixabay.PixabayViewModel
+import androidx.appcompat.app.AppCompatActivity
 import com.example.pixabay.R
-import com.example.pixabay.utils.afterTextChanged
-import com.google.android.material.textfield.TextInputEditText
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity() {
-    private val pixabayViewModel: PixabayViewModel by viewModel()
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: PixabayAdapter
-    private lateinit var input: TextInputEditText
+class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        initRV()
-        initSearch()
+        openMainFragment(savedInstanceState)
     }
-
-    private fun initRV() {
-        recyclerView = findViewById(R.id.recyclerView)
-        adapter = PixabayAdapter()
-        recyclerView.adapter = adapter
-
-        pixabayViewModel.apiResult.observe(this) { hits ->
-            adapter.setData(hits)
-        }
-    }
-
-    private fun initSearch() {
-        input = findViewById(R.id.searchEditText)
-        input.afterTextChanged { text ->
-            pixabayViewModel.getImages(text)
+    private fun openMainFragment(savedInstanceState: Bundle? = null) {
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.container, MainFragment())
+                .commit()
         }
     }
 }

@@ -13,7 +13,6 @@ import com.example.pixabay.R
 
 class PixabayAdapter(private var data: List<Image>? = null) :
     RecyclerView.Adapter<PixabayAdapter.ViewHolder>() {
-
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val image: ImageView = itemView.findViewById(R.id.pixabay_image)
         val userName: TextView = itemView.findViewById(R.id.pixabay_user)

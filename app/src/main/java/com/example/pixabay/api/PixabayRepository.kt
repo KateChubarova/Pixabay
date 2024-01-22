@@ -1,20 +1,12 @@
 package com.example.pixabay.api
 
-import androidx.room.Room
 import com.example.pixabay.Image
 import com.example.pixabay.db.ImageDao
-import com.example.pixabay.db.ImageDataBase
-import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 import java.io.IOException
 import java.lang.Exception
 
 val pixabayModule = module {
-    single {
-        Room.databaseBuilder(androidApplication(), ImageDataBase::class.java, "app_database")
-            .build()
-    }
-    single { get<ImageDataBase>().imageDao() }
     factory { PixabayRepository(get(), get()) }
 }
 
