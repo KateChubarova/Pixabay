@@ -8,15 +8,34 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.pixabay.Image
+import com.example.pixabay.PixabayViewModel
 import com.example.pixabay.R
 
-class PixabayAdapter(private var data: List<Image>? = null) :
+class PixabayAdapter(val pixabayViewModel: PixabayViewModel) :
     RecyclerView.Adapter<PixabayAdapter.ViewHolder>() {
+
+    private var data: List<Image> = emptyList()
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val image: ImageView = itemView.findViewById(R.id.pixabay_image)
-        val userName: TextView = itemView.findViewById(R.id.pixabay_user)
-        val tags: TextView = itemView.findViewById(R.id.pixabay_tags)
+        private val imageView: ImageView = itemView.findViewById(R.id.pixabay_image)
+        private val userName: TextView = itemView.findViewById(R.id.pixabay_user)
+        private val tags: TextView = itemView.findViewById(R.id.pixabay_tags)
+
+        fun bind(image: Image) {
+            Glide.with(itemView)
+                .load(image.previewUrl)
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .into(imageView)
+            userName.text = image.userName
+            tags.text = image.tags
+
+            itemView.setOnClickListener {
+                pixabayViewModel.onItemClick(image)
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -24,22 +43,14 @@ class PixabayAdapter(private var data: List<Image>? = null) :
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        data?.get(position)?.let { currentItem ->
-            Glide.with(holder.itemView)
-                .load(currentItem.previewUrl)
-                .centerCrop()
-                .into(holder.image)
-            holder.userName.text = currentItem.userName
-            holder.tags.text = currentItem.tags
-        }
-    }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) =
+        holder.bind(data[position])
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(data: List<Image>?) {
+    fun setData(data: List<Image>) {
         this.data = data
         notifyDataSetChanged()
     }
 
-    override fun getItemCount(): Int = data?.size ?: 0
+    override fun getItemCount(): Int = data.size
 }

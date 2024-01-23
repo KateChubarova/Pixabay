@@ -31,11 +31,14 @@ class PixabayRepository(private val pixabayApi: PixabayApi, private val imageDao
     }
 
     private suspend fun saveImagesToDatabase(images: List<Image>) {
-        imageDao.insertAllImages(images)
+        try {
+            imageDao.insertAllImages(images)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     private suspend fun getImagesFromDatabase(query: String): List<Image> {
         return imageDao.getImagesByQuery(query)
     }
-
 }

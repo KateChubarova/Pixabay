@@ -16,6 +16,8 @@ class PixabayViewModel(private val repository: PixabayRepository) : ViewModel() 
 
     private val _apiResult = MutableLiveData<List<Image>>()
     val apiResult: LiveData<List<Image>> get() = _apiResult
+    private val _selectedItem = MutableLiveData<Image>()
+    val selectedItem: LiveData<Image> get() = _selectedItem
 
     init {
         getImages("fruit")
@@ -25,5 +27,9 @@ class PixabayViewModel(private val repository: PixabayRepository) : ViewModel() 
         viewModelScope.launch {
             _apiResult.postValue(repository.getImages(query))
         }
+    }
+
+    fun onItemClick(image: Image) {
+        _selectedItem.value = image
     }
 }
