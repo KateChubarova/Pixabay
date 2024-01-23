@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Pixaby</string>
     <string name="search">Search</string>
+    <string name="more_details">More details</string>
+    <string name="more_details_message">Do you want to see more details?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

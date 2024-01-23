@@ -2,7 +2,11 @@ package com.example.pixabay.utils
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.EditText
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
+import androidx.viewbinding.ViewBinding
 
 fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
     this.addTextChangedListener(object : TextWatcher {
@@ -17,4 +21,6 @@ fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
         }
     })
 }
+
+
 

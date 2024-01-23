@@ -10,6 +10,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
         openMainFragment(savedInstanceState)
     }
+
     private fun openMainFragment(savedInstanceState: Bundle? = null) {
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()

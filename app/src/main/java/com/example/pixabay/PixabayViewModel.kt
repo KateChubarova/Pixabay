@@ -16,8 +16,11 @@ class PixabayViewModel(private val repository: PixabayRepository) : ViewModel() 
 
     private val _apiResult = MutableLiveData<List<Image>>()
     val apiResult: LiveData<List<Image>> get() = _apiResult
-    private val _selectedItem = MutableLiveData<Image>()
-    val selectedItem: LiveData<Image> get() = _selectedItem
+    private val _selectedItem = MutableLiveData<Image?>()
+    val selectedItem: LiveData<Image?> get() = _selectedItem
+    private val _positiveButtonClickEvent = MutableLiveData<Unit>()
+    val positiveButtonClickEvent: LiveData<Unit> get() = _positiveButtonClickEvent
+
 
     init {
         getImages("fruit")
@@ -29,7 +32,12 @@ class PixabayViewModel(private val repository: PixabayRepository) : ViewModel() 
         }
     }
 
-    fun onItemClick(image: Image) {
-        _selectedItem.value = image
+    fun onItemClick(image: Image?) {
+        _selectedItem.postValue(image)
     }
+
+    fun positiveButtonClicked() {
+        _positiveButtonClickEvent.value = Unit
+    }
+
 }
