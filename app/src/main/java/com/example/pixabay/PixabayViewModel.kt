@@ -16,28 +16,51 @@ class PixabayViewModel(private val repository: PixabayRepository) : ViewModel() 
 
     private val _apiResult = MutableLiveData<List<Image>>()
     val apiResult: LiveData<List<Image>> get() = _apiResult
+    private val _clickedItem = MutableLiveData<Image?>()
+    val clicked: LiveData<Image?> get() = _clickedItem
+    private val _positiveButtonClickEvent = MutableLiveData<Boolean>()
+    val positiveButtonClickEvent: LiveData<Boolean> get() = _positiveButtonClickEvent
     private val _selectedItem = MutableLiveData<Image?>()
     val selectedItem: LiveData<Image?> get() = _selectedItem
-    private val _positiveButtonClickEvent = MutableLiveData<Unit>()
-    val positiveButtonClickEvent: LiveData<Unit> get() = _positiveButtonClickEvent
-
-
-    init {
-        getImages("fruit")
+    private val _query = MutableLiveData<String>().apply {
+        value = "fruit"
     }
 
-    fun getImages(query: String) {
+    init {
+        _query.value?.let {
+            getImages()
+        }
+    }
+
+    fun updateQuery(request: String) {
+        if (request != _query.value) {
+            _query.value = request
+            getImages()
+        }
+    }
+
+    private fun getImages() {
         viewModelScope.launch {
-            _apiResult.postValue(repository.getImages(query))
+            _query.value?.let {
+                _apiResult.postValue(repository.getImages(it))
+            }
         }
     }
 
     fun onItemClick(image: Image?) {
-        _selectedItem.postValue(image)
+        _clickedItem.postValue(image)
+    }
+
+    fun dialogOpened() {
+        _selectedItem.postValue(_clickedItem.value)
+        _clickedItem.postValue(null)
     }
 
     fun positiveButtonClicked() {
-        _positiveButtonClickEvent.value = Unit
+        _positiveButtonClickEvent.postValue(true)
     }
 
+    fun openDetails() {
+        _positiveButtonClickEvent.postValue(false)
+    }
 }

@@ -1,26 +1,24 @@
 package com.example.pixabay.utils
 
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.View
-import android.widget.EditText
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
-import androidx.viewbinding.ViewBinding
+import android.content.Context
+import android.content.res.Resources
+import android.util.DisplayMetrics
 
-fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
-    this.addTextChangedListener(object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-        }
 
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        }
-
-        override fun afterTextChanged(editable: Editable?) {
-            afterTextChanged.invoke(editable.toString())
-        }
-    })
+fun calculateNoOfColumns(context: Context): Int {
+    val columnWidth = dpToPx(context, 180) // Set your desired column width in dp
+    val displayMetrics = context.resources.displayMetrics
+    val screenWidth = displayMetrics.widthPixels.toFloat()
+    return (screenWidth / columnWidth).toInt()
 }
+
+// Convert dp to pixels
+private fun dpToPx(context: Context, dp: Int): Int {
+    val resources: Resources = context.resources
+    return (dp * (resources.displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT))
+}
+
+
 
 
 

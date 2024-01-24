@@ -38,14 +38,17 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
             .into(binding.imageView)
 
-        binding.textComments.text = "Comments " + image.comments
-        binding.textLikes.text = "Likes " + image.likes
-        binding.textUserName.text = "Username " + image.userName
+        val resources = requireContext().resources
+        binding.textComments.text = resources.getQuantityString(R.plurals.comments, image.comments, image.comments)
+        binding.textLikes.text = resources.getQuantityString(R.plurals.likes, image.likes, image.likes)
+        binding.textUserName.text = image.userName
+        binding.textDownloads.text =
+            resources.getQuantityString(R.plurals.downloads, image.downloads, image.downloads)
+        binding.textTags.text = image.getHashTags()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
 }

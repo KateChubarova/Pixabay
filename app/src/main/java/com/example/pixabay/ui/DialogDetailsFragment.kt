@@ -14,10 +14,10 @@ class DialogDetailsFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireActivity())
         builder.setTitle(R.string.more_details).setMessage(R.string.more_details_message)
-            .setPositiveButton(R.string.yes) { dialog, id ->
+            .setPositiveButton(R.string.yes) { _, _ ->
                 pixabayViewModel.positiveButtonClicked()
                 dismiss()
-            }.setNegativeButton(R.string.no) { dialog, id ->
+            }.setNegativeButton(R.string.no) { _, _ ->
                 dismiss()
             }
         return builder.create()

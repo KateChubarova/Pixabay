@@ -20,8 +20,15 @@ data class Image(
     val tags: String,
     val comments: Int,
     val likes: Int,
-    val downloads: Int
-) : Serializable
+    val downloads: Int,
+    val imageWidth: Int,
+    val imageHeight: Int
+) : Serializable {
+    fun getHashTags(): String {
+        val values = tags.split(", ").map { it.trim() }
+        return values.joinToString(" ") { "#$it" }
+    }
+}
 
 data class ImageResponse(
     val total: Int,

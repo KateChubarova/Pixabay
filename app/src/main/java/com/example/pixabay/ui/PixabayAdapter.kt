@@ -30,7 +30,7 @@ class PixabayAdapter(val pixabayViewModel: PixabayViewModel) :
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into(imageView)
             userName.text = image.userName
-            tags.text = image.tags
+            tags.text = image.getHashTags()
 
             itemView.setOnClickListener {
                 pixabayViewModel.onItemClick(image)

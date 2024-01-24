@@ -5,4 +5,19 @@
     <string name="more_details_message">Do you want to see more details?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <plurals name="likes">
+        <item quantity="one">%d like</item>
+        <item quantity="other">%d likes</item>
+        <item quantity="zero">%d likes</item>
+    </plurals>
+    <plurals name="comments">
+        <item quantity="one">%d comment</item>
+        <item quantity="other">%d comments</item>
+        <item quantity="zero">%d comments</item>
+    </plurals>
+    <plurals name="downloads">
+        <item quantity="one">%d download</item>
+        <item quantity="other">%d downloads</item>
+        <item quantity="zero">%d downloads</item>
+    </plurals>
 </resources>
