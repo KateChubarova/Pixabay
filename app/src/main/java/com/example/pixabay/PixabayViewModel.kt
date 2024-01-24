@@ -22,14 +22,15 @@ class PixabayViewModel(private val repository: PixabayRepository) : ViewModel() 
     val positiveButtonClickEvent: LiveData<Boolean> get() = _positiveButtonClickEvent
     private val _selectedItem = MutableLiveData<Image?>()
     val selectedItem: LiveData<Image?> get() = _selectedItem
-    private val _query = MutableLiveData<String>().apply {
-        value = "fruit"
+    private val _query = MutableLiveData<String>()
+    val query: LiveData<String> get() = _query
+
+    companion object {
+        const val INITIAL_QUERY = "fruit"
     }
 
     init {
-        _query.value?.let {
-            getImages()
-        }
+        updateQuery(INITIAL_QUERY)
     }
 
     fun updateQuery(request: String) {

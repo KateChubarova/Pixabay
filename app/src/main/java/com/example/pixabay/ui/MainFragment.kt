@@ -17,19 +17,15 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private var binding: FragmentMainBinding? = null
     private val pixabayViewModel: PixabayViewModel by activityViewModel()
-    lateinit var adapter: PixabayAdapter
+    private lateinit var adapter: PixabayAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        if (binding == null) {
-            binding = FragmentMainBinding.inflate(inflater, container, false)
-            initSearch()
-            initRV()
-            initViewModel()
-        }
+        binding = FragmentMainBinding.inflate(inflater, container, false)
+        initSearch()
+        initRV()
+        initViewModel()
         setRVLayoutManager()
         return binding?.root
     }
@@ -62,6 +58,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 openDetails()
             }
         }
+
+        pixabayViewModel.query.observe(this.viewLifecycleOwner) { query ->
+            if (query != binding?.searchEditText?.text.toString()) {
+                binding?.searchEditText?.setText(query)
+            }
+        }
     }
 
     private fun initSearch() {
@@ -78,14 +80,13 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     private fun openDetails() {
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.container, DetailsFragment())
-            .addToBackStack(null)
-            .commit()
+        parentFragmentManager.beginTransaction().replace(R.id.container, DetailsFragment())
+            .addToBackStack(null).commit()
     }
 
     private fun setRVLayoutManager() {
-        val layoutManager = GridLayoutManager(requireContext(), calculateNoOfColumns(requireContext()))
+        val layoutManager =
+            GridLayoutManager(requireContext(), calculateNoOfColumns(requireContext()))
         binding?.recyclerView?.layoutManager = layoutManager
     }
 }

@@ -20,7 +20,7 @@
         android:id="@+id/textTags"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageView"
         tools:text="#cats #cat" />
@@ -29,36 +29,32 @@
         android:id="@+id/textLikes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textTags"
-        tools:text="23 likes"/>
+        tools:text="23 likes" />
 
     <TextView
         android:id="@+id/textComments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textLikes"
-        tools:text="23 comments"/>
+        tools:text="23 comments" />
 
     <TextView
         android:id="@+id/textDownloads"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textComments"
-        tools:text="23 downloads"/>
+        tools:text="23 downloads" />
 
     <TextView
         android:id="@+id/textUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textDownloads"
-        tools:text="Katsiaryna"/>
+        tools:text="Katsiaryna" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

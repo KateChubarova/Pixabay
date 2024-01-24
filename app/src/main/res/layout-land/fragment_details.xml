@@ -19,7 +19,8 @@
         android:id="@+id/textTags"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingHorizontal="@dimen/small"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/imageView"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="#cats #cat" />
@@ -28,15 +29,15 @@
         android:id="@+id/textLikes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingHorizontal="@dimen/small"
         app:layout_constraintStart_toEndOf="@id/imageView"
-        app:layout_constraintTop_toTopOf="@id/textTags" />
+        app:layout_constraintTop_toBottomOf="@id/textTags" />
 
     <TextView
         android:id="@+id/textComments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingHorizontal="@dimen/small"
         app:layout_constraintStart_toEndOf="@id/imageView"
         app:layout_constraintTop_toBottomOf="@id/textLikes" />
 
@@ -44,7 +45,7 @@
         android:id="@+id/textDownloads"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingHorizontal="@dimen/small"
         app:layout_constraintStart_toEndOf="@id/imageView"
         app:layout_constraintTop_toBottomOf="@id/textComments" />
 
@@ -52,7 +53,7 @@
         android:id="@+id/textUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingHorizontal="@dimen/small"
         app:layout_constraintStart_toEndOf="@id/imageView"
         app:layout_constraintTop_toBottomOf="@id/textDownloads" />
 
