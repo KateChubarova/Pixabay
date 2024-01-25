@@ -13,5 +13,4 @@ interface ImageDao {
 
     @Query("SELECT * FROM table_image WHERE userName LIKE '%' || :query || '%' OR tags LIKE '%' || :query || '%'")
     suspend fun getImagesByQuery(query: String): List<Image>
-
 }
