@@ -38,7 +38,6 @@ class PixabayRepository(private val pixabayApi: PixabayApi, private val imageDao
         }
     }
 
-    private suspend fun getImagesFromDatabase(query: String): List<Image> {
-        return imageDao.getImagesByQuery(query)
-    }
+    private suspend fun getImagesFromDatabase(query: String): List<Image> =
+        imageDao.getImagesByQuery(query)
 }
