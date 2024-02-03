@@ -32,19 +32,21 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
         val image = pixabayViewModel.selectedItem.value ?: return
 
-        Glide.with(requireContext())
-            .load(image.largeImageUrl)
-            .centerCrop()
-            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-            .into(binding.imageView)
-
         val resources = requireContext().resources
-        binding.textComments.text = resources.getQuantityString(R.plurals.comments, image.comments, image.comments)
-        binding.textLikes.text = resources.getQuantityString(R.plurals.likes, image.likes, image.likes)
-        binding.textUserName.text = image.userName
-        binding.textDownloads.text =
-            resources.getQuantityString(R.plurals.downloads, image.downloads, image.downloads)
-        binding.textTags.text = image.getHashTags()
+        with(binding) {
+            textComments.text = resources.getQuantityString(R.plurals.comments, image.comments, image.comments)
+            textLikes.text = resources.getQuantityString(R.plurals.likes, image.likes, image.likes)
+            textUserName.text = image.userName
+            textDownloads.text =
+                resources.getQuantityString(R.plurals.downloads, image.downloads, image.downloads)
+            textTags.text = image.hashTags
+
+            Glide.with(requireContext())
+                .load(image.largeImageUrl)
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .into(imageView)
+        }
     }
 
     override fun onDestroyView() {

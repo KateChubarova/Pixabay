@@ -42,7 +42,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun initViewModel() {
         pixabayViewModel.apiResult.observe(this.viewLifecycleOwner) { hits ->
-            adapter.setData(hits)
+            adapter.submitList(hits)
         }
 
         pixabayViewModel.clicked.observe(this.viewLifecycleOwner) { image ->

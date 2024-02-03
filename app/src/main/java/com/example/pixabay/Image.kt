@@ -22,12 +22,11 @@ data class Image(
     val likes: Int,
     val downloads: Int,
     val imageWidth: Int,
-    val imageHeight: Int
+    val imageHeight: Int,
+    var query: String = ""
 ) : Serializable {
-    fun getHashTags(): String {
-        val values = tags.split(", ").map { it.trim() }
-        return values.joinToString(" ") { "#$it" }
-    }
+    val hashTags: String
+        get() = tags.split(", ").map { it.trim() }.joinToString(" ") { "#$it" }
 }
 
 data class ImageResponse(

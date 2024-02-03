@@ -1,6 +1,6 @@
-package com.example.pixabay.api
+package com.example.pixabay
 
-import com.example.pixabay.Image
+import com.example.pixabay.api.PixabayApi
 import com.example.pixabay.db.ImageDao
 import org.koin.dsl.module
 import java.io.IOException
@@ -12,19 +12,21 @@ val pixabayModule = module {
 
 class PixabayRepository(private val pixabayApi: PixabayApi, private val imageDao: ImageDao) {
     suspend fun getImages(query: String): List<Image> {
-        return try {
+        try {
             val imagesFromApi = getImagesFromApi(query)
             saveImagesToDatabase(imagesFromApi)
-            imagesFromApi
         } catch (e: Exception) {
-            getImagesFromDatabase(query)
+            e.printStackTrace()
         }
+        return getImagesFromDatabase(query)
     }
 
     private suspend fun getImagesFromApi(query: String): List<Image> {
         val response = pixabayApi.getImages(query)
         if (response.isSuccessful) {
-            return response.body()?.hits ?: emptyList()
+            val hits = response.body()?.hits
+            hits?.map { it.query += "$query, " }
+            return hits ?: emptyList()
         } else {
             throw IOException("Network request failed")
         }

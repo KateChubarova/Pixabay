@@ -3,7 +3,6 @@ package com.example.pixabay
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pixabay.api.PixabayRepository
 import kotlinx.coroutines.launch
 import org.koin.dsl.module
 

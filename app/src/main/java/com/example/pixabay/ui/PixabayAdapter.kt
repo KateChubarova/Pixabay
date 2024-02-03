@@ -1,37 +1,31 @@
 package com.example.pixabay.ui
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.pixabay.Image
 import com.example.pixabay.PixabayViewModel
-import com.example.pixabay.R
+import com.example.pixabay.databinding.ItemBinding
 
 class PixabayAdapter(val pixabayViewModel: PixabayViewModel) :
-    RecyclerView.Adapter<PixabayAdapter.ViewHolder>() {
+    ListAdapter<Image, PixabayAdapter.ViewHolder>(IMAGE_DIFF_CALLBACK) {
 
-    private var data: List<Image> = emptyList()
-
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val imageView: ImageView = itemView.findViewById(R.id.pixabay_image)
-        private val userName: TextView = itemView.findViewById(R.id.pixabay_user)
-        private val tags: TextView = itemView.findViewById(R.id.pixabay_tags)
-
+    inner class ViewHolder(val binding: ItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(image: Image) {
-            Glide.with(itemView)
-                .load(image.previewUrl)
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .into(imageView)
-            userName.text = image.userName
-            tags.text = image.getHashTags()
+            with(binding) {
+                Glide.with(itemView)
+                    .load(image.previewUrl)
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .into(pixabayImage)
 
+                pixabayUser.text = image.userName
+                pixabayTags.text = image.hashTags
+            }
             itemView.setOnClickListener {
                 pixabayViewModel.onItemClick(image)
             }
@@ -39,18 +33,21 @@ class PixabayAdapter(val pixabayViewModel: PixabayViewModel) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item, parent, false)
-        return ViewHolder(view)
+        val itemBinding: ItemBinding =
+            ItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(itemBinding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) =
-        holder.bind(data[position])
+        holder.bind(getItem(position))
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun setData(data: List<Image>) {
-        this.data = data
-        notifyDataSetChanged()
+    companion object {
+        private val IMAGE_DIFF_CALLBACK = object : DiffUtil.ItemCallback<Image>() {
+            override fun areItemsTheSame(oldItem: Image, newItem: Image): Boolean =
+                oldItem.id == newItem.id
+
+            override fun areContentsTheSame(oldItem: Image, newItem: Image): Boolean =
+                oldItem == newItem
+        }
     }
-
-    override fun getItemCount(): Int = data.size
 }

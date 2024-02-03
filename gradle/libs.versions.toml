@@ -1,0 +1,48 @@
+[versions]
+compilerVersion = "4.12.0"
+constraintlayoutVersion = "2.1.4"
+coreKtxVersion = "1.12.0"
+appcompatVersion = "1.6.1"
+espressoCoreVersion = "3.5.1"
+fragmentKtxVersion = "1.6.2"
+glideVersion = "4.16.0"
+junit = "1.1.5"
+junitVersion = "4.13.2"
+koinAndroidVersion = "3.4.0"
+kotlinxCoroutinesAndroidVersion = "1.7.3"
+kotlinxCoroutinesCoreVersion = "1.6.4"
+lifecycleViewmodelKtxVersion = "2.7.0"
+loggingInterceptorVersion = "4.11.0"
+materialVersion = "1.11.0"
+retrofitVersion = "2.9.0"
+roomKtxVersion = "2.6.1"
+roomRuntimeVersion = "2.6.1"
+androidxPaging = "3.2.1"
+
+[libraries]
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayoutVersion" }
+androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCoreVersion" }
+androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtxVersion" }
+androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junit" }
+androidx-lifecycle-compiler = { module = "androidx.lifecycle:lifecycle-compiler", version.ref = "lifecycleViewmodelKtxVersion" }
+androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleViewmodelKtxVersion" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtxVersion" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntimeVersion" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntimeVersion" }
+compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compilerVersion" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofitVersion" }
+coreKtx = { module = "androidx.core:core-ktx", version.ref = "coreKtxVersion" }
+appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompatVersion" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glideVersion" }
+junit = { module = "junit:junit", version.ref = "junitVersion" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinAndroidVersion" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroidVersion" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCoreVersion" }
+logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "loggingInterceptorVersion" }
+material = { module = "com.google.android.material:material", version.ref = "materialVersion" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofitVersion" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtxVersion" }
+androidx-paging-common-ktx = { group = "androidx.paging", name = "paging-common-ktx", version.ref = "androidxPaging" }
+androidx-paging-runtime-ktx = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "androidxPaging" }
+
+[plugins]
