@@ -2,19 +2,23 @@ package com.example.pixabay.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.example.pixabay.Image
-import com.example.pixabay.PixabayViewModel
+import com.example.pixabay.model.Image
 import com.example.pixabay.databinding.ItemBinding
 
-class PixabayAdapter(val pixabayViewModel: PixabayViewModel) :
-    ListAdapter<Image, PixabayAdapter.ViewHolder>(IMAGE_DIFF_CALLBACK) {
+interface OnItemClickListener {
+    fun onItemClick(image: Image)
+}
 
-    inner class ViewHolder(val binding: ItemBinding) : RecyclerView.ViewHolder(binding.root) {
+class PixabayAdapter(private val onItemClickListener: OnItemClickListener) :
+    PagingDataAdapter<Image, PixabayAdapter.ViewHolder>(IMAGE_DIFF_CALLBACK) {
+
+    inner class ViewHolder(private val binding: ItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(image: Image) {
             with(binding) {
                 Glide.with(itemView)
@@ -26,9 +30,6 @@ class PixabayAdapter(val pixabayViewModel: PixabayViewModel) :
                 pixabayUser.text = image.userName
                 pixabayTags.text = image.hashTags
             }
-            itemView.setOnClickListener {
-                pixabayViewModel.onItemClick(image)
-            }
         }
     }
 
@@ -38,8 +39,15 @@ class PixabayAdapter(val pixabayViewModel: PixabayViewModel) :
         return ViewHolder(itemBinding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) =
-        holder.bind(getItem(position))
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = getItem(position)
+        item?.let { image ->
+            holder.bind(image)
+            holder.itemView.setOnClickListener {
+                onItemClickListener.onItemClick(image)
+            }
+        }
+    }
 
     companion object {
         private val IMAGE_DIFF_CALLBACK = object : DiffUtil.ItemCallback<Image>() {

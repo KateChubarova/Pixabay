@@ -1,4 +1,4 @@
-package com.example.pixabay.api
+package com.example.pixabay.model.api
 
 import com.example.pixabay.BuildConfig
 import okhttp3.Interceptor

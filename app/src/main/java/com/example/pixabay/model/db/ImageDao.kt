@@ -1,10 +1,10 @@
-package com.example.pixabay.db
+package com.example.pixabay.model.db
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.pixabay.Image
+import com.example.pixabay.model.Image
 
 @Dao
 interface ImageDao {

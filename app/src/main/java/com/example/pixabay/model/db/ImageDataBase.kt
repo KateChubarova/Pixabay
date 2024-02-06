@@ -1,9 +1,9 @@
-package com.example.pixabay.db
+package com.example.pixabay.model.db
 
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.pixabay.Image
+import com.example.pixabay.model.Image
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 

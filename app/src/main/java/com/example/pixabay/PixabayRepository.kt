@@ -1,35 +1,29 @@
 package com.example.pixabay
 
-import com.example.pixabay.api.PixabayApi
-import com.example.pixabay.db.ImageDao
-import org.koin.dsl.module
-import java.io.IOException
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.example.pixabay.model.Image
+import com.example.pixabay.model.api.PixabayApi
+import com.example.pixabay.model.api.PixabayPagingSource
+import com.example.pixabay.model.db.ImageDao
+import kotlinx.coroutines.flow.Flow
 import java.lang.Exception
 
-val pixabayModule = module {
-    factory { PixabayRepository(get(), get()) }
-}
-
 class PixabayRepository(private val pixabayApi: PixabayApi, private val imageDao: ImageDao) {
-    suspend fun getImages(query: String): List<Image> {
-        try {
-            val imagesFromApi = getImagesFromApi(query)
-            saveImagesToDatabase(imagesFromApi)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return getImagesFromDatabase(query)
+
+    companion object {
+        const val NETWORK_PAGE_SIZE = 30
     }
 
-    private suspend fun getImagesFromApi(query: String): List<Image> {
-        val response = pixabayApi.getImages(query)
-        if (response.isSuccessful) {
-            val hits = response.body()?.hits
-            hits?.map { it.query += "$query, " }
-            return hits ?: emptyList()
-        } else {
-            throw IOException("Network request failed")
-        }
+    fun getSearchResultStream(query: String): Flow<PagingData<Image>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = NETWORK_PAGE_SIZE,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { PixabayPagingSource(pixabayApi, query) }
+        ).flow
     }
 
     private suspend fun saveImagesToDatabase(images: List<Image>) {

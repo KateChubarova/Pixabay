@@ -4,8 +4,9 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.matcher.ViewMatchers.assertThat
-import com.example.pixabay.db.ImageDao
-import com.example.pixabay.db.ImageDataBase
+import com.example.pixabay.model.Image
+import com.example.pixabay.model.db.ImageDao
+import com.example.pixabay.model.db.ImageDataBase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.After

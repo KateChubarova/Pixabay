@@ -20,4 +20,5 @@
         <item quantity="other">%d downloads</item>
         <item quantity="zero">%d downloads</item>
     </plurals>
+    <string name="no_results">No results 😓</string>
 </resources>

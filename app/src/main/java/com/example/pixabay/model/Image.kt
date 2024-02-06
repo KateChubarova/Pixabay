@@ -1,4 +1,4 @@
-package com.example.pixabay
+package com.example.pixabay.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
