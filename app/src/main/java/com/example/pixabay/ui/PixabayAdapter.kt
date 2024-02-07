@@ -10,11 +10,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.pixabay.model.Image
 import com.example.pixabay.databinding.ItemBinding
 
-interface OnItemClickListener {
-    fun onItemClick(image: Image)
-}
 
-class PixabayAdapter(private val onItemClickListener: OnItemClickListener) :
+class PixabayAdapter(private val openImage: (image: Image) -> Unit) :
     PagingDataAdapter<Image, PixabayAdapter.ViewHolder>(IMAGE_DIFF_CALLBACK) {
 
     inner class ViewHolder(private val binding: ItemBinding) :
@@ -44,7 +41,7 @@ class PixabayAdapter(private val onItemClickListener: OnItemClickListener) :
         item?.let { image ->
             holder.bind(image)
             holder.itemView.setOnClickListener {
-                onItemClickListener.onItemClick(image)
+                openImage(image)
             }
         }
     }

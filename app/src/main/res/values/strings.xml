@@ -21,4 +21,5 @@
         <item quantity="zero">%d downloads</item>
     </plurals>
     <string name="no_results">No results 😓</string>
+    <string name="retry">Retry</string>
 </resources>

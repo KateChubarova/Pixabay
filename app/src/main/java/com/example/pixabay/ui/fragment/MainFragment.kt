@@ -1,9 +1,10 @@
-package com.example.pixabay.ui
+package com.example.pixabay.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -18,6 +19,9 @@ import com.example.pixabay.R
 import com.example.pixabay.databinding.FragmentMainBinding
 import com.example.pixabay.model.UiAction
 import com.example.pixabay.model.UiState
+import com.example.pixabay.ui.DialogDetailsFragment
+import com.example.pixabay.ui.ImageLoadStateAdapter
+import com.example.pixabay.ui.PixabayAdapter
 import com.example.pixabay.utils.RemotePresentationState
 import com.example.pixabay.utils.asRemotePresentationState
 import com.example.pixabay.utils.calculateNoOfColumns
@@ -31,7 +35,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
-class MainFragment : Fragment(R.layout.fragment_main), OnItemClickListener {
+class MainFragment : Fragment(R.layout.fragment_main) {
 
     private var _binding: FragmentMainBinding? = null
 
@@ -50,7 +54,6 @@ class MainFragment : Fragment(R.layout.fragment_main), OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setRVLayoutManager()
         binding.bindState(
             uiState = pixabayViewModel.state,
             pagingData = pixabayViewModel.pagingDataFlow,
@@ -65,17 +68,20 @@ class MainFragment : Fragment(R.layout.fragment_main), OnItemClickListener {
         _binding = null
     }
 
-    override fun onItemClick(image: Image) {
-        pixabayViewModel.onItemClick(image)
-    }
-
     private fun FragmentMainBinding.bindState(
         uiState: StateFlow<UiState>,
         pagingData: Flow<PagingData<Image>>,
         uiActions: (UiAction) -> Unit
     ) {
-        val pixabayAdapter = PixabayAdapter(this@MainFragment)
-        recyclerView.adapter = pixabayAdapter
+        val pixabayAdapter = PixabayAdapter { image ->
+            pixabayViewModel.onItemClick(image)
+        }
+        val footerAdapter = ImageLoadStateAdapter { pixabayAdapter.retry() }
+        recyclerView.adapter = pixabayAdapter.withLoadStateFooter(
+            footer = footerAdapter
+        )
+        setRVLayoutManager(pixabayAdapter, footerAdapter)
+        retryButton.setOnClickListener { pixabayAdapter.retry() }
         bindSearch(
             uiState = uiState,
             onQueryChanged = uiActions
@@ -135,8 +141,7 @@ class MainFragment : Fragment(R.layout.fragment_main), OnItemClickListener {
             notLoading,
             hasNotScrolledForCurrentSearch,
             Boolean::and
-        )
-            .distinctUntilChanged()
+        ).distinctUntilChanged()
 
         lifecycleScope.launch {
             pagingData.collectLatest {
@@ -155,9 +160,22 @@ class MainFragment : Fragment(R.layout.fragment_main), OnItemClickListener {
                 val isListEmpty =
                     loadState.refresh is LoadState.NotLoading && pixabayAdapter.itemCount == 0
                 emptyList.isVisible = isListEmpty
-                recyclerView.isVisible =
-                    loadState.source.refresh is LoadState.NotLoading || loadState.mediator?.refresh is LoadState.NotLoading
-                progressBar.isVisible = loadState.mediator?.refresh is LoadState.Loading
+                recyclerView.isVisible = !isListEmpty
+                progressBar.isVisible = loadState.source.refresh is LoadState.Loading
+                // Show the retry state if initial load or refresh fails.
+                retryButton.isVisible = loadState.source.refresh is LoadState.Error
+
+                val errorState = loadState.source.append as? LoadState.Error
+                    ?: loadState.source.prepend as? LoadState.Error
+                    ?: loadState.append as? LoadState.Error
+                    ?: loadState.prepend as? LoadState.Error
+                errorState?.let {
+                    Toast.makeText(
+                        requireContext(),
+                        "\uD83D\uDE28 Wooops ${it.error}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
         }
     }
@@ -188,9 +206,20 @@ class MainFragment : Fragment(R.layout.fragment_main), OnItemClickListener {
             .addToBackStack(null).commit()
     }
 
-    private fun setRVLayoutManager() {
+    private fun setRVLayoutManager(adapter: PixabayAdapter, footerAdapter: ImageLoadStateAdapter) {
+        val columns = calculateNoOfColumns(requireContext())
         val layoutManager =
             GridLayoutManager(requireContext(), calculateNoOfColumns(requireContext()))
+        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return if (position == adapter.itemCount && footerAdapter.itemCount > 0) {
+                    columns
+                } else {
+                    1
+                }
+            }
+
+        }
         binding.recyclerView.layoutManager = layoutManager
     }
 }

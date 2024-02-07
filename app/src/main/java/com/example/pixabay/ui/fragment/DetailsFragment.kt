@@ -1,4 +1,4 @@
-package com.example.pixabay.ui
+package com.example.pixabay.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
