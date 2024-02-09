@@ -1,5 +1,6 @@
 package com.example.pixabay.model.db
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -12,7 +13,7 @@ interface ImageDao {
     suspend fun insertAllImages(post: List<Image>)
 
     @Query("SELECT * FROM table_image WHERE userName LIKE '%' || :query || '%' OR tags LIKE '%' || :query || '%'")
-    suspend fun getImagesByQuery(query: String): List<Image>
+    fun getImagesByQuery(query: String): PagingSource<Int, Image>
 
     @Query("DELETE FROM table_image")
     suspend fun clearImages()

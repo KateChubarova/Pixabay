@@ -99,7 +99,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         onQueryChanged: (UiAction.Search) -> Unit
     ) {
         searchEditText.addTextChangedListener {
-            updateRepoListFromInput(onQueryChanged)
+            updateImagesFromInput(onQueryChanged)
         }
 
         lifecycleScope.launch {
@@ -110,7 +110,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
     }
 
-    private fun FragmentMainBinding.updateRepoListFromInput(onQueryChanged: (UiAction.Search) -> Unit) {
+    private fun FragmentMainBinding.updateImagesFromInput(onQueryChanged: (UiAction.Search) -> Unit) {
         searchEditText.text?.let {
             if (!it.isNullOrEmpty()) {
                 onQueryChanged(UiAction.Search(query = it.toString()))

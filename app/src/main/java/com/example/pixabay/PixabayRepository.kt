@@ -6,11 +6,10 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.pixabay.model.Image
 import com.example.pixabay.model.ImageRemoteMediator
-import com.example.pixabay.model.api.PixabayService
-import com.example.pixabay.model.api.PixabayPagingSource
+import com.example.pixabay.model.db.ImageDataBase
 import kotlinx.coroutines.flow.Flow
 
-class PixabayRepository(private val pixabayService: PixabayService) {
+class PixabayRepository(private val database: ImageDataBase) {
 
     companion object {
         const val NETWORK_PAGE_SIZE = 30
@@ -18,6 +17,10 @@ class PixabayRepository(private val pixabayService: PixabayService) {
 
     @OptIn(ExperimentalPagingApi::class)
     fun getSearchResultStream(query: String): Flow<PagingData<Image>> {
+
+        val dbQuery = "%${query.replace(' ', '%')}%"
+        val pagingSourceFactory = { database.imageDao().getImagesByQuery(dbQuery) }
+
         return Pager(
             config = PagingConfig(
                 pageSize = NETWORK_PAGE_SIZE,
@@ -26,7 +29,7 @@ class PixabayRepository(private val pixabayService: PixabayService) {
             remoteMediator = ImageRemoteMediator(
                 query
             ),
-            pagingSourceFactory = { PixabayPagingSource(pixabayService, query) }
+            pagingSourceFactory = pagingSourceFactory
         ).flow
     }
 }

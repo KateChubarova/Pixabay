@@ -10,7 +10,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.pixabay.model.Image
 import com.example.pixabay.databinding.ItemBinding
 
-
 class PixabayAdapter(private val openImage: (image: Image) -> Unit) :
     PagingDataAdapter<Image, PixabayAdapter.ViewHolder>(IMAGE_DIFF_CALLBACK) {
 

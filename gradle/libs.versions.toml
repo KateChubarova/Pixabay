@@ -42,7 +42,9 @@ logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", ver
 material = { module = "com.google.android.material:material", version.ref = "materialVersion" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofitVersion" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtxVersion" }
+room-paging = { module = "androidx.room:room-paging", version.ref = "roomKtxVersion" }
 androidx-paging-common-ktx = { group = "androidx.paging", name = "paging-common-ktx", version.ref = "androidxPaging" }
 androidx-paging-runtime-ktx = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "androidxPaging" }
+
 
 [plugins]
