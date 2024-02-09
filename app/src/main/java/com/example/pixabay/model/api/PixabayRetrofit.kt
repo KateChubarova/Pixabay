@@ -40,5 +40,5 @@ fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
     }
 }
 
-fun providePixabayApi(retrofit: Retrofit): PixabayApi = retrofit.create(PixabayApi::class.java)
+fun providePixabayApi(retrofit: Retrofit): PixabayService = retrofit.create(PixabayService::class.java)
 

@@ -8,7 +8,7 @@ import com.example.pixabay.PixabayRepository.Companion.NETWORK_PAGE_SIZE
 private const val PIXABAY_STARTING_PAGE_INDEX = 1
 
 class PixabayPagingSource(
-    private val service: PixabayApi, private val query: String
+    private val service: PixabayService, private val query: String
 ) : PagingSource<Int, Image>() {
     override fun getRefreshKey(state: PagingState<Int, Image>): Int? {
         return state.anchorPosition?.let { anchorPosition ->

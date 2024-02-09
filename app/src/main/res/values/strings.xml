@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Pixaby</string>
+    <string name="app_name">Pixabay</string>
     <string name="search">Search</string>
     <string name="more_details">More details</string>
     <string name="more_details_message">Do you want to see more details?</string>

@@ -7,23 +7,17 @@ import java.io.Serializable
 
 @Entity(tableName = "table_image")
 data class Image(
-    @PrimaryKey
-    val id: Int,
-    @SerializedName("pageURL")
-    val pageUrl: String,
-    @SerializedName("user")
-    val userName: String,
-    @SerializedName("previewURL")
-    val previewUrl: String,
-    @SerializedName("largeImageURL")
-    val largeImageUrl: String,
+    @PrimaryKey val id: Long,
+    @field:SerializedName("pageURL") val pageUrl: String,
+    @field:SerializedName("user") val userName: String,
+    @field:SerializedName("previewURL") val previewUrl: String,
+    @field:SerializedName("largeImageURL") val largeImageUrl: String,
     val tags: String,
     val comments: Int,
     val likes: Int,
     val downloads: Int,
     val imageWidth: Int,
-    val imageHeight: Int,
-    var query: String = ""
+    val imageHeight: Int
 ) : Serializable {
     val hashTags: String
         get() = tags.split(", ").map { it.trim() }.joinToString(" ") { "#$it" }

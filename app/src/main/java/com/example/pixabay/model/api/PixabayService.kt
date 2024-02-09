@@ -4,7 +4,7 @@ import com.example.pixabay.model.ImageResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface PixabayApi {
+interface PixabayService {
     @GET("/api")
     suspend fun searchImages(
         @Query("q") query: String,
